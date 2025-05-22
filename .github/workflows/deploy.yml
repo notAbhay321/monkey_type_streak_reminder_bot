@@ -1,13 +1,11 @@
-name: Deploy Telegram Bot
+name: Run Telegram Bot
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
-  deploy:
+  run-bot:
     runs-on: ubuntu-latest
     
     steps:
@@ -23,24 +21,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Test bot (dry run)
+    - name: Run Telegram Bot
       env:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       run: |
-        python -c "import bot; print('Bot script is valid')"
-    
-    # Optional: Deploy to a VPS or cloud service
-    # Example for deploying to a VPS via SSH:
-    - name: Deploy to server
-      if: github.ref == 'refs/heads/main'
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        script: |
-          cd /path/to/your/bot
-          git pull origin main
-          pip install -r requirements.txt
-          pkill -f "python bot.py" || true
-          nohup python bot.py > bot.log 2>&1 &
+        python bot.py
