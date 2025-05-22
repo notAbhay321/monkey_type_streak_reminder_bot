@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /start is issued."""
-    await update.message.reply_text('Hey there!')
+    await update.message.reply_text('Hello!')
 
 def main() -> None:
     """Start the bot."""
